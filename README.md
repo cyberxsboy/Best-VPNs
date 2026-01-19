@@ -126,7 +126,7 @@ Bluetile是一家专注于提供高速稳定网络服务的机场VPN，以其出
 - **私密性强**：提供高速、私密的网络服务，适合外贸公司、科研人员和科技博主等用户。
 
 - **客户端支持**：自研专属客户端，操作简单，适合新手用户使用。
-![Bluetile-VPN使用文档](https://opq.bluetile.wang/dashboard/knowledge)
+**[👉Bluetile-VPN使用文档](https://opq.bluetile.wang/dashboard/knowledge)**
 
 
 
@@ -140,7 +140,7 @@ Bluetile是一家专注于提供高速稳定网络服务的机场VPN，以其出
 所有套餐均支持ChatGPT、Netflix、Hulu等流媒体服务，且不限制端口速率
 
 
-![image](./images/02.png)
+![BluetileVPN](./images/02.png)
 ## [BluetileVPN]线路原生支持解锁流媒体，内容包括 Netflix、Disney、HBO、TVB、Happyon、AbemaTV 等在内的多种流媒体视频。
 
 全线路 IEPL 跨境专线出国 1000Mbps峰值速率 入口接入，自建全线路IEPL专线接入保证稳定节点倍率1。Netflix、動畫瘋、HBO、Disney+、等流媒體解鎖，支持UDPN、NginX+TLS、SecureX安全隧道加密協議线路100%匿名。
@@ -158,9 +158,9 @@ Bluetile是一家专注于提供高速稳定网络服务的机场VPN，以其出
 ---
 
 
-![image](./images/03.png)
+![红杏-VPN](./images/03.png)
 ---
-## [红杏-VPN](./images/0002.png)
+## ![红杏-VPN](./images/0002.png)
 
 ** 红杏-VPN 是一家专为中国用户精心优化的高质量网络加速服务提供商，主打稳定高速的中继节点体验，支持多平台自动配置，无需繁琐设置，轻松实现全设备无障碍上网。
 
