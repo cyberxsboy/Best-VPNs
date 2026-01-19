@@ -55,7 +55,8 @@ Bluetile是一家专注于提供高速稳定网络服务的机场VPN，以其出
 ![Bluetile-VPN](https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n)
 <img width="3083" height="962" alt="星云-VPN机场第1张" src="./images/0001.jpg" />
 ---
-[![Bluetile-VPN][./images/0001.jpg]]([点击图片跳转的URL](https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n))
+[![Bluetile-VPN](./images/0001.jpg)]([点击图片跳转的URL](https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n))
+
 ---
 ---
 ---
