@@ -3,11 +3,6 @@
 随着网络环境的不断变化，寻找稳定、高速且性价比高的网络访问工具已成为许多用户的刚需。本报告通过对市场上主流VPN和专业网络服务的全面评测，精选了 Bluetile、红杏VPN、等优质VPN服务商，旨在为用户提供全面参考。
 
 
-[logo]: https://github.com/cyberxsboy/Best-VPNs/blob/main/images/01.png
-[link]: https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n
-
-[![最新稳定高速VPN推荐：多款性价比翻墙梯子完全指南][logo]][link]
-
 
 [![最新稳定高速VPN推荐：多款性价比翻墙梯子完全指南](https://github.com/cyberxsboy/Best-VPNs/blob/main/images/02.png)](https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n)
 
