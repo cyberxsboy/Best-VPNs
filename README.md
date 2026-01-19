@@ -53,7 +53,7 @@ Bluetile是一家专注于提供高速稳定网络服务的机场VPN，以其出
 
 **[Bluetile入口](https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n)**
 
-[Bluetile-VPN](./images/0001.jpg)]
+![Bluetile-VPN](./images/0001.jpg)
 
 ---
 ---
