@@ -4,9 +4,7 @@
 
 
 
-<a href="https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n">
-  <img src="https://raw.githubusercontent.com/cyberxsboy/Best-VPNs/main/images/01.png" alt="VPN推荐" width="600">
-</a>
+<a href="https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n"><img src="https://raw.githubusercontent.com/cyberxsboy/Best-VPNs/main/images/01.png" alt="VPN推荐" width="600"></a>
 
 
 ### 评选标准与方法论
