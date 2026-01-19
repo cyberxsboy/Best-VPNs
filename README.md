@@ -4,7 +4,9 @@
 
 
 
-[![最新稳定高速VPN推荐：多款性价比翻墙梯子完全指南](https://raw.githubusercontent.com/cyberxsboy/Best-VPNs/main/images/01.png)](https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n)
+<a href="https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n">
+  <img src="https://raw.githubusercontent.com/cyberxsboy/Best-VPNs/main/images/01.png" alt="VPN推荐" width="600">
+</a>
 
 
 ### 评选标准与方法论
