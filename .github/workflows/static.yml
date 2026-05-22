@@ -27,11 +27,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # ==================== 生成 index.html + meta description + sitemap ====================
+      # ==================== 生成 index.html + meta description ====================
       - name: Convert README.md to beautiful index.html
         run: |
           sudo apt-get update && sudo apt-get install -y pandoc
-          
+         
           # 提取标题
           PAGE_TITLE=$(grep -m 1 "^#\{1,2\}\s" README.md | sed 's/^#\+\s*//' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | head -c 120)
           if [ -z "$PAGE_TITLE" ]; then
@@ -40,16 +40,16 @@ jobs:
           if [ -z "$PAGE_TITLE" ]; then
             PAGE_TITLE="我的网站"
           fi
-          
-          # 提取 Meta Description（取第一个段落，前150字符）
+         
+          # 提取 Meta Description
           META_DESC=$(sed '1,/^#/d' README.md | tr '\n' ' ' | sed 's/^[[:space:]]*//' | head -c 150 | sed 's/[[:space:]]*$//' | sed 's/"//g')
           if [ -z "$META_DESC" ]; then
             META_DESC="欢迎访问我的网站 - ${PAGE_TITLE}"
           fi
-          
+         
           echo "提取标题: $PAGE_TITLE"
           echo "提取描述: $META_DESC"
-          
+         
           cat > index.html << EOF
           <!DOCTYPE html>
           <html lang="zh-CN">
@@ -65,9 +65,9 @@ jobs:
                       --text: #f0f9ff;
                       --text-secondary: #a5b4fc;
                   }
-                  
+                 
                   * { margin: 0; padding: 0; box-sizing: border-box; }
-                  
+                 
                   body {
                       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
                       color: var(--text);
@@ -79,21 +79,21 @@ jobs:
                       position: relative;
                       overflow-x: hidden;
                   }
-                  
+                 
                   #matrix-bg {
                       position: fixed;
                       top: 0; left: 0; right: 0; bottom: 0;
                       z-index: -2;
                       opacity: 0.75;
                   }
-                  
+                 
                   header {
                       text-align: center;
                       margin-bottom: 80px;
                       position: relative;
                       z-index: 2;
                   }
-                  
+                 
                   h1 {
                       font-size: 3.2rem;
                       font-weight: 800;
@@ -103,7 +103,7 @@ jobs:
                       text-shadow: 0 0 15px #67e8f9, 0 0 30px rgba(103, 232, 249, 0.5);
                       margin-bottom: 20px;
                   }
-                  
+                 
                   .glass-card {
                       background: rgba(15, 23, 42, 0.65);
                       backdrop-filter: blur(20px);
@@ -116,9 +116,9 @@ jobs:
                       position: relative;
                       z-index: 2;
                   }
-                  
+                 
                   .content { font-size: 1.16rem; }
-                  
+                 
                   .content img {
                       max-width: 100% !important;
                       height: auto !important;
@@ -126,14 +126,14 @@ jobs:
                       margin: 32px 0;
                       box-shadow: 0 15px 35px rgba(34, 211, 238, 0.2);
                   }
-                  
+                 
                   h2 { color: #67e8f9; margin: 60px 0 26px; font-size: 2rem; text-shadow: 0 0 12px #67e8f9; }
                   h3 { color: #c4d0ff; margin: 45px 0 20px; }
                   p { margin-bottom: 26px; color: var(--text-secondary); }
-                  
+                 
                   a { color: #67e8f9; text-decoration: none; }
                   a:hover { color: #ffffff; text-shadow: 0 0 12px #67e8f9; }
-                  
+                 
                   @media (max-width: 768px) {
                       body { padding: 35px 16px; }
                       h1 { font-size: 2.45rem; }
@@ -143,17 +143,17 @@ jobs:
           </head>
           <body>
               <canvas id="matrix-bg"></canvas>
-              
+             
               <header>
                   <h1>${PAGE_TITLE}</h1>
               </header>
-              
+             
               <div class="glass-card">
                   <div class="content">
           EOF
-          
+         
           pandoc README.md --from gfm --to html -s --section-divs | sed '1,/<\/h1>/d' >> index.html
-          
+         
           cat >> index.html << 'JS_EOF'
                   </div>
               </div>
@@ -163,12 +163,12 @@ jobs:
                   function resizeCanvas() { canvas.height = window.innerHeight; canvas.width = window.innerWidth; }
                   resizeCanvas();
                   window.addEventListener('resize', resizeCanvas);
-                  
+                 
                   const chars = '01';
                   const fontSize = 14;
                   let columns = canvas.width / fontSize;
                   let drops = Array(Math.floor(columns)).fill(1);
-                  
+                 
                   function draw() {
                       ctx.fillStyle = 'rgba(5, 5, 15, 0.085)';
                       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -187,20 +187,28 @@ jobs:
           </html>
           JS_EOF
 
-      # ==================== 生成 sitemap.xml ====================
+      # ==================== 生成 sitemap.xml（使用正确的 Pages 域名） ====================
       - name: Generate sitemap.xml
         run: |
+          # 使用 deployment 输出的真实 URL（支持自定义域名）
+          SITE_URL="${{ steps.deployment.outputs.page_url }}"
+          if [ -z "$SITE_URL" ]; then
+            SITE_URL="https://$(echo ${{ github.repository }} | sed 's/.*\///').github.io/$(echo ${{ github.repository }} | cut -d'/' -f2)"
+          fi
+          
           cat > sitemap.xml << EOF
           <?xml version="1.0" encoding="UTF-8"?>
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <url>
-              <loc>https://$(echo ${{ github.repository }} | sed 's/.*\///').github.io/$(echo ${{ github.repository }} | cut -d'/' -f2)/</loc>
+              <loc>${SITE_URL}/</loc>
               <lastmod>$(date +%Y-%m-%d)</lastmod>
               <changefreq>weekly</changefreq>
               <priority>1.0</priority>
             </url>
           </urlset>
           EOF
+          
+          echo "生成的站点地址: ${SITE_URL}"
 
       # ==================== 提交文件到仓库 ====================
       - name: Commit updated files
