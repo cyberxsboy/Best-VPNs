@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write      # 修改为 write，允许提交文件
   pages: write
   id-token: write
 
@@ -24,12 +24,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}   # 支持推送代码
 
       # ==================== 修复标题 + 动态0/1背景 + 图片自适应 ====================
       - name: Convert README.md to beautiful index.html
         run: |
           sudo apt-get update && sudo apt-get install -y pandoc
-          
+         
           # 加强标题提取
           PAGE_TITLE=$(grep -m 1 "^#\{1,2\}\s" README.md | sed 's/^#\+\s*//' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | head -c 120)
           if [ -z "$PAGE_TITLE" ]; then
@@ -38,9 +40,9 @@ jobs:
           if [ -z "$PAGE_TITLE" ]; then
             PAGE_TITLE="我的网站"
           fi
-          
-          echo "提取标题: $PAGE_TITLE"   # 在 Actions 日志中查看是否提取成功
-          
+         
+          echo "提取标题: $PAGE_TITLE" # 在 Actions 日志中查看是否提取成功
+         
           cat > index.html << EOF
           <!DOCTYPE html>
           <html lang="zh-CN">
@@ -55,9 +57,9 @@ jobs:
                       --text: #f0f9ff;
                       --text-secondary: #a5b4fc;
                   }
-                  
+                 
                   * { margin: 0; padding: 0; box-sizing: border-box; }
-                  
+                 
                   body {
                       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
                       color: var(--text);
@@ -69,7 +71,7 @@ jobs:
                       position: relative;
                       overflow-x: hidden;
                   }
-                  
+                 
                   /* 动态 0/1 数字雨 */
                   #matrix-bg {
                       position: fixed;
@@ -77,14 +79,14 @@ jobs:
                       z-index: -2;
                       opacity: 0.75;
                   }
-                  
+                 
                   header {
                       text-align: center;
                       margin-bottom: 80px;
                       position: relative;
                       z-index: 2;
                   }
-                  
+                 
                   h1 {
                       font-size: 3.2rem;
                       font-weight: 800;
@@ -94,7 +96,7 @@ jobs:
                       text-shadow: 0 0 15px #67e8f9, 0 0 30px rgba(103, 232, 249, 0.5);
                       margin-bottom: 20px;
                   }
-                  
+                 
                   .glass-card {
                       background: rgba(15, 23, 42, 0.65);
                       backdrop-filter: blur(20px);
@@ -107,11 +109,11 @@ jobs:
                       position: relative;
                       z-index: 2;
                   }
-                  
-                  .content { 
-                      font-size: 1.16rem; 
+                 
+                  .content {
+                      font-size: 1.16rem;
                   }
-                  
+                 
                   /* 关键修复：图片自适应 */
                   .content img {
                       max-width: 100% !important;
@@ -120,17 +122,17 @@ jobs:
                       margin: 32px 0;
                       box-shadow: 0 15px 35px rgba(34, 211, 238, 0.2);
                   }
-                  
+                 
                   h2 {
                       color: #67e8f9;
                       margin: 60px 0 26px;
                       font-size: 2rem;
                       text-shadow: 0 0 12px #67e8f9;
                   }
-                  
+                 
                   h3 { color: #c4d0ff; margin: 45px 0 20px; }
                   p { margin-bottom: 26px; color: var(--text-secondary); }
-                  
+                 
                   a {
                       color: #67e8f9;
                       text-decoration: none;
@@ -139,7 +141,7 @@ jobs:
                       color: #ffffff;
                       text-shadow: 0 0 12px #67e8f9;
                   }
-                  
+                 
                   /* 响应式 */
                   @media (max-width: 768px) {
                       body { padding: 35px 16px; }
@@ -150,51 +152,50 @@ jobs:
           </head>
           <body>
               <canvas id="matrix-bg"></canvas>
-              
+             
               <header>
                   <h1>${PAGE_TITLE}</h1>
               </header>
-              
+             
               <div class="glass-card">
                   <div class="content">
           EOF
-          
+         
           # 转换 README 内容
           pandoc README.md --from gfm --to html -s --section-divs | \
           sed '1,/<\/h1>/d' >> index.html
-          
+         
           # 添加 Matrix 数字雨脚本
           cat >> index.html << 'JS_EOF'
                   </div>
               </div>
-
               <script>
                   const canvas = document.getElementById('matrix-bg');
                   const ctx = canvas.getContext('2d');
-                  
+                 
                   function resizeCanvas() {
                       canvas.height = window.innerHeight;
                       canvas.width = window.innerWidth;
                   }
                   resizeCanvas();
                   window.addEventListener('resize', resizeCanvas);
-                  
+                 
                   const chars = '01';
                   const fontSize = 14;
                   let columns = canvas.width / fontSize;
                   let drops = Array(Math.floor(columns)).fill(1);
-                  
+                 
                   function draw() {
                       ctx.fillStyle = 'rgba(5, 5, 15, 0.085)';
                       ctx.fillRect(0, 0, canvas.width, canvas.height);
-                      
+                     
                       ctx.fillStyle = '#22d3ee';
                       ctx.font = fontSize + 'px monospace';
-                      
+                     
                       for (let i = 0; i < drops.length; i++) {
                           const text = chars[Math.floor(Math.random() * chars.length)];
                           ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                          
+                         
                           if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                               drops[i] = 0;
                           }
@@ -206,16 +207,24 @@ jobs:
           </body>
           </html>
           JS_EOF
-      # =====================================================================
 
+      # ==================== 新增：自动提交 index.html 到仓库 ====================
+      - name: Commit updated index.html
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add index.html
+          git commit -m "chore: update index.html from README.md (auto generated)" || echo "No changes to commit"
+          git push
+        continue-on-error: true
+
+      # =====================================================================
       - name: Setup Pages
         uses: actions/configure-pages@v5
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
