@@ -12,9 +12,7 @@
             --text: #f0f9ff;
             --text-secondary: #a5b4fc;
         }
-       
         * { margin: 0; padding: 0; box-sizing: border-box; }
-       
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             color: var(--text);
@@ -26,31 +24,16 @@
             position: relative;
             overflow-x: hidden;
         }
-       
-        #matrix-bg {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: -2;
-            opacity: 0.75;
-        }
-       
-        header {
-            text-align: center;
-            margin-bottom: 80px;
-            position: relative;
-            z-index: 2;
-        }
-       
+        #matrix-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2; opacity: 0.75; }
+        header { text-align: center; margin-bottom: 80px; position: relative; z-index: 2; }
         h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
+            font-size: 3.2rem; font-weight: 800;
             background: linear-gradient(90deg, #e0f2fe, #67e8f9, #bae6fd);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 15px #67e8f9, 0 0 30px rgba(103, 232, 249, 0.5);
             margin-bottom: 20px;
         }
-       
         .glass-card {
             background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(20px);
@@ -63,9 +46,7 @@
             position: relative;
             z-index: 2;
         }
-       
         .content { font-size: 1.16rem; }
-       
         .content img {
             max-width: 100% !important;
             height: auto !important;
@@ -73,14 +54,11 @@
             margin: 32px 0;
             box-shadow: 0 15px 35px rgba(34, 211, 238, 0.2);
         }
-       
         h2 { color: #67e8f9; margin: 60px 0 26px; font-size: 2rem; text-shadow: 0 0 12px #67e8f9; }
         h3 { color: #c4d0ff; margin: 45px 0 20px; }
         p { margin-bottom: 26px; color: var(--text-secondary); }
-       
         a { color: #67e8f9; text-decoration: none; }
         a:hover { color: #ffffff; text-shadow: 0 0 12px #67e8f9; }
-       
         @media (max-width: 768px) {
             body { padding: 35px 16px; }
             h1 { font-size: 2.45rem; }
@@ -90,13 +68,8 @@
 </head>
 <body>
     <canvas id="matrix-bg"></canvas>
-   
-    <header>
-        <h1>2026年最新稳定高速VPN推荐：多款性价比翻墙梯子完全指南</h1></h1>
-    </header>
-   
-    <div class="glass-card">
-        <div class="content">
+    <header><h1>2026年最新稳定高速VPN推荐：多款性价比翻墙梯子完全指南</h1></h1></header>
+    <div class="glass-card"><div class="content">
 <p>随着网络环境的不断变化，寻找稳定、高速且性价比高的网络访问工具已成为许多用户的刚需。本报告通过对市场上主流VPN和专业网络服务的全面评测，精选了
 飞鸟加速、星辰VPN、尔湾云加速
 等优质VPN服务商，旨在为用户提供全面参考。</p>
@@ -640,25 +613,18 @@ alt="最新稳定高速VPN推荐：高性价比翻墙梯子完全指南2" /></li
 </section>
 </body>
 </html>
-        </div>
-    </div>
+        </div></div>
     <script>
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.height = window.innerHeight; canvas.width = window.innerWidth; }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-       
-        const chars = '01';
-        const fontSize = 14;
+        resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+        const chars = '01'; const fontSize = 14;
         let columns = canvas.width / fontSize;
         let drops = Array(Math.floor(columns)).fill(1);
-       
         function draw() {
-            ctx.fillStyle = 'rgba(5, 5, 15, 0.085)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#22d3ee';
-            ctx.font = fontSize + 'px monospace';
+            ctx.fillStyle = 'rgba(5, 5, 15, 0.085)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#22d3ee'; ctx.font = fontSize + 'px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const text = chars[Math.floor(Math.random() * chars.length)];
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -668,5 +634,4 @@ alt="最新稳定高速VPN推荐：高性价比翻墙梯子完全指南2" /></li
         }
         setInterval(draw, 35);
     </script>
-</body>
-</html>
+</body></html>
