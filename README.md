@@ -6,7 +6,7 @@
 
 ![最新稳定高速VPN推荐：多款性价比翻墙梯子完全指南](./images/01.png)
 
-**[👉 点击这里立即注册获取优惠](https://www.xn--nly574e.biz/auth/register?code=zI7qvG2n)**
+**[👉 点击这里立即注册获取优惠](https://www.112112789.xyz/?code=uq27o1Ko)**
 
 
 ### 评选标准与方法论
