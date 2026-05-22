@@ -25,21 +25,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ==================== 动态 0/1 数字雨背景 + 炫酷科技风 ====================
+      # ==================== 修复标题 + 动态0/1背景 + 图片自适应 ====================
       - name: Convert README.md to beautiful index.html
         run: |
           sudo apt-get update && sudo apt-get install -y pandoc
           
-          # 提取标题
-          PAGE_TITLE=$(grep -m 1 "^#\{1,2\}\s" README.md | sed 's/^#\+\s*//' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | head -c 100)
+          # 加强标题提取
+          PAGE_TITLE=$(grep -m 1 "^#\{1,2\}\s" README.md | sed 's/^#\+\s*//' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | head -c 120)
           if [ -z "$PAGE_TITLE" ]; then
-            PAGE_TITLE=$(head -n 10 README.md | grep -m 1 "^# " | sed 's/^# //' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            PAGE_TITLE=$(head -n 15 README.md | grep -m 1 "^# " | sed 's/^# //' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           fi
           if [ -z "$PAGE_TITLE" ]; then
             PAGE_TITLE="我的网站"
           fi
           
-          cat > index.html << 'EOF'
+          echo "提取标题: $PAGE_TITLE"   # 在 Actions 日志中查看是否提取成功
+          
+          cat > index.html << EOF
           <!DOCTYPE html>
           <html lang="zh-CN">
           <head>
@@ -68,7 +70,7 @@ jobs:
                       overflow-x: hidden;
                   }
                   
-                  /* 动态 0/1 数字雨 Canvas */
+                  /* 动态 0/1 数字雨 */
                   #matrix-bg {
                       position: fixed;
                       top: 0; left: 0; right: 0; bottom: 0;
@@ -84,7 +86,7 @@ jobs:
                   }
                   
                   h1 {
-                      font-size: 3.3rem;
+                      font-size: 3.2rem;
                       font-weight: 800;
                       background: linear-gradient(90deg, #e0f2fe, #67e8f9, #bae6fd);
                       -webkit-background-clip: text;
@@ -106,7 +108,18 @@ jobs:
                       z-index: 2;
                   }
                   
-                  .content { font-size: 1.16rem; }
+                  .content { 
+                      font-size: 1.16rem; 
+                  }
+                  
+                  /* 关键修复：图片自适应 */
+                  .content img {
+                      max-width: 100% !important;
+                      height: auto !important;
+                      border-radius: 16px;
+                      margin: 32px 0;
+                      box-shadow: 0 15px 35px rgba(34, 211, 238, 0.2);
+                  }
                   
                   h2 {
                       color: #67e8f9;
@@ -121,7 +134,6 @@ jobs:
                   a {
                       color: #67e8f9;
                       text-decoration: none;
-                      transition: all 0.3s ease;
                   }
                   a:hover {
                       color: #ffffff;
@@ -137,7 +149,6 @@ jobs:
               </style>
           </head>
           <body>
-              <!-- 动态 0/1 数字雨背景 -->
               <canvas id="matrix-bg"></canvas>
               
               <header>
@@ -152,7 +163,7 @@ jobs:
           pandoc README.md --from gfm --to html -s --section-divs | \
           sed '1,/<\/h1>/d' >> index.html
           
-          # 添加 Matrix 数字雨 JavaScript
+          # 添加 Matrix 数字雨脚本
           cat >> index.html << 'JS_EOF'
                   </div>
               </div>
@@ -165,7 +176,6 @@ jobs:
                       canvas.height = window.innerHeight;
                       canvas.width = window.innerWidth;
                   }
-                  
                   resizeCanvas();
                   window.addEventListener('resize', resizeCanvas);
                   
@@ -175,7 +185,7 @@ jobs:
                   let drops = Array(Math.floor(columns)).fill(1);
                   
                   function draw() {
-                      ctx.fillStyle = 'rgba(5, 5, 15, 0.08)';
+                      ctx.fillStyle = 'rgba(5, 5, 15, 0.085)';
                       ctx.fillRect(0, 0, canvas.width, canvas.height);
                       
                       ctx.fillStyle = '#22d3ee';
@@ -191,7 +201,6 @@ jobs:
                           drops[i]++;
                       }
                   }
-                  
                   setInterval(draw, 35);
               </script>
           </body>
