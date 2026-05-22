@@ -25,18 +25,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ==================== 自动转换 + 高端响应式样式 ====================
+      # ==================== 修复版：正确替换标题 + 高端样式 ====================
       - name: Convert README.md to beautiful index.html
         run: |
           sudo apt-get update && sudo apt-get install -y pandoc
           
-          # 提取第一个 H1 作为标题
+          # 提取第一个 H1 标题
           PAGE_TITLE=$(grep -m 1 "^# " README.md | sed 's/^# //' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           if [ -z "$PAGE_TITLE" ]; then
             PAGE_TITLE="我的网站"
           fi
           
-          cat > index.html << 'EOF'
+          # 生成 index.html（关键修复：去掉单引号让变量生效）
+          cat > index.html << EOF
           <!DOCTYPE html>
           <html lang="zh-CN">
           <head>
@@ -90,7 +91,6 @@ jobs:
                   }
                   
                   h3 { color: #c4d0e0; margin: 36px 0 16px; }
-                  
                   p { margin-bottom: 20px; }
                   
                   code {
@@ -157,7 +157,7 @@ jobs:
               <div class="content">
           EOF
           
-          # 转换 README 内容（跳过第一个 H1）
+          # 转换 README 内容并跳过第一个 H1（避免重复）
           pandoc README.md --from gfm --to html -s --section-divs | \
           sed '1,/<\/h1>/d' >> index.html
           
