@@ -25,25 +25,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ==================== 加强版标题提取 + 美观样式 ====================
+      # ==================== 高端网络科技风 + 响应式样式 ====================
       - name: Convert README.md to beautiful index.html
         run: |
           sudo apt-get update && sudo apt-get install -y pandoc
           
-          # 更强大的标题提取（支持各种写法）
+          # 提取标题
           PAGE_TITLE=$(grep -m 1 "^#\{1,2\}\s" README.md | sed 's/^#\+\s*//' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | head -c 100)
-          
-          # 如果还是提取不到，尝试更宽松的方式
           if [ -z "$PAGE_TITLE" ]; then
             PAGE_TITLE=$(head -n 10 README.md | grep -m 1 "^# " | sed 's/^# //' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           fi
-          
-          # 最终兜底
           if [ -z "$PAGE_TITLE" ]; then
             PAGE_TITLE="我的网站"
           fi
-          
-          echo "提取到的标题: $PAGE_TITLE"   # 方便你在 Actions 日志中查看
           
           cat > index.html << EOF
           <!DOCTYPE html>
@@ -54,10 +48,12 @@ jobs:
               <title>${PAGE_TITLE}</title>
               <style>
                   :root {
-                      --bg: #0f172a;
+                      --bg: #0a0f1c;
+                      --surface: #111827;
                       --text: #e2e8f0;
-                      --accent: #60a5fa;
-                      --card: #1e2937;
+                      --text-secondary: #94a3b8;
+                      --accent: #4fd1c5;
+                      --accent-soft: #22d3ee;
                   }
                   
                   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -65,76 +61,93 @@ jobs:
                       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
                       background: var(--bg);
                       color: var(--text);
-                      line-height: 1.7;
-                      max-width: 1000px;
+                      line-height: 1.75;
+                      max-width: 1080px;
                       margin: 0 auto;
-                      padding: 40px 20px;
+                      padding: 48px 24px;
                   }
                   
                   header {
                       text-align: center;
-                      margin-bottom: 60px;
+                      margin-bottom: 70px;
                       padding-bottom: 40px;
-                      border-bottom: 1px solid #334155;
+                      border-bottom: 1px solid #1e2937;
                   }
                   
                   h1 {
-                      font-size: 2.8rem;
-                      margin-bottom: 16px;
-                      background: linear-gradient(90deg, #60a5fa, #a78bfa);
+                      font-size: 2.9rem;
+                      margin-bottom: 20px;
+                      background: linear-gradient(90deg, #67e8f9, #a5f3fc);
                       -webkit-background-clip: text;
                       -webkit-text-fill-color: transparent;
+                      font-weight: 700;
                   }
                   
-                  .content { font-size: 1.1rem; }
+                  .content { font-size: 1.12rem; }
                   
-                  h2 { 
-                      color: #93c5fd; 
-                      margin: 48px 0 20px;
-                      font-size: 1.8rem;
-                      border-left: 5px solid var(--accent);
-                      padding-left: 16px;
+                  h2 {
+                      color: #67e8f9;
+                      margin: 52px 0 24px;
+                      font-size: 1.85rem;
+                      border-left: 6px solid var(--accent);
+                      padding-left: 20px;
                   }
                   
-                  h3 { color: #c4d0e0; margin: 36px 0 16px; }
-                  p { margin-bottom: 20px; }
+                  h3 {
+                      color: #a5b4fc;
+                      margin: 40px 0 18px;
+                      font-size: 1.35rem;
+                  }
+                  
+                  p { margin-bottom: 22px; color: var(--text-secondary); }
+                  
+                  a {
+                      color: var(--accent-soft);
+                      text-decoration: none;
+                      transition: all 0.3s ease;
+                  }
+                  a:hover {
+                      color: #67e8f9;
+                      text-decoration: underline;
+                  }
                   
                   code {
                       background: #1e2937;
-                      padding: 3px 8px;
+                      padding: 4px 9px;
                       border-radius: 6px;
                       font-family: 'JetBrains Mono', monospace;
+                      color: #67e8f9;
                   }
                   
                   pre {
-                      background: #1e2937;
-                      padding: 20px;
-                      border-radius: 12px;
+                      background: #111827;
+                      padding: 24px;
+                      border-radius: 14px;
                       overflow-x: auto;
-                      margin: 24px 0;
-                      border: 1px solid #334155;
+                      margin: 28px 0;
+                      border: 1px solid #1e2937;
                   }
                   
                   img {
                       max-width: 100%;
-                      border-radius: 12px;
-                      margin: 24px 0;
-                      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                      border-radius: 14px;
+                      margin: 32px 0;
+                      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
                   }
                   
                   table {
                       width: 100%;
                       border-collapse: collapse;
-                      margin: 24px 0;
-                      background: var(--card);
-                      border-radius: 10px;
+                      margin: 32px 0;
+                      background: var(--surface);
+                      border-radius: 12px;
                       overflow: hidden;
                   }
                   
                   th, td {
-                      padding: 14px 16px;
+                      padding: 16px 20px;
                       text-align: left;
-                      border-bottom: 1px solid #334155;
+                      border-bottom: 1px solid #1e2937;
                   }
                   
                   th {
@@ -143,8 +156,13 @@ jobs:
                   }
                   
                   @media (max-width: 768px) {
-                      body { padding: 20px 15px; }
-                      h1 { font-size: 2.2rem; }
+                      body { padding: 30px 18px; }
+                      h1 { font-size: 2.3rem; }
+                      h2 { font-size: 1.65rem; }
+                  }
+                  
+                  @media (max-width: 480px) {
+                      h1 { font-size: 2.1rem; }
                   }
               </style>
           </head>
@@ -155,7 +173,7 @@ jobs:
               <div class="content">
           EOF
           
-          # 转换 README 内容并跳过第一个标题
+          # 转换 README 内容
           pandoc README.md --from gfm --to html -s --section-divs | \
           sed '1,/<\/h1>/d' >> index.html
           
